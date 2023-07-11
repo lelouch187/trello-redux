@@ -1,19 +1,23 @@
 import React, { createContext, useReducer } from 'react';
+import { ICard } from './types/card';
+
 
 export interface State {
   popup: {
     visible: boolean;
     name: string;
   };
+  cards:ICard[]
 }
 
 export enum Actions {
   setName = 'setName',
+  setCardName = 'setCardName',
 }
 
 interface Action {
   type: Actions;
-  payload?: string;
+  payload?: any;
 }
 
 const initialValue: State = {
@@ -21,11 +25,27 @@ const initialValue: State = {
     visible: true,
     name: '',
   },
+  cards:[
+   {
+      titleCard:'TODO'
+   },
+   {
+      titleCard:'In Progress'
+   },
+   {
+      titleCard:'Testing'
+   },
+   {
+      titleCard:'Done'
+   },
+  ]
 };
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case Actions.setName:
       return { ...state, popup: { ...state.popup, name: action.payload!, visible: false } };
+      case Actions.setCardName:
+         return { ...state, cards: action.payload!  };  
     default:
       return state;
   }
