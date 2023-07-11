@@ -1,0 +1,19 @@
+.card {
+   background-color:#101204;
+   width: 300px;
+   border-radius: 8px;
+   padding: 10px;
+   cursor: pointer;
+   font-size: 24px;
+   color: #b6c2cf;
+}
+.title{
+   margin-bottom: 10px;
+}
+.text{
+   border-radius: 8px;
+   padding: 5px;
+}
+.text:hover{
+   background-color:#22272b;
+}

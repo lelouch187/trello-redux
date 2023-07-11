@@ -1,0 +1,8 @@
+.main{
+   background-image: url('../../assets/images/bacground.jpeg');
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+   height: calc(100vh - 70px);
+   padding: 20px;
+}
