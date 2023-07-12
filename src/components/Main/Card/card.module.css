@@ -3,22 +3,9 @@
    width: 400px;
    height: max-content;
    border-radius: 8px;
-   padding: 10px;
+   padding: 20px;
    cursor: pointer;
    font-size: 24px;
    color: #b6c2cf;
    margin-right: 50px;
-}
-.title{
-   margin-bottom: 10px;
-}
-.text{
-   border-radius: 8px;
-   padding: 5px;
-}
-.text:hover{
-   background-color:#22272b;
-}
-.input{
-   margin: 0px 10px 20px 0px;
 }

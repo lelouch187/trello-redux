@@ -9,7 +9,8 @@ const Main:FC = () => {
   return (
     <main className={s.main}>
      {state.cards.map((item:ICard, index:number)=>{
-      return <Card index={index}
+      return <Card tasks={item.tasks}
+      index={index}
       key={index}
       titleCard={item.titleCard}
       />

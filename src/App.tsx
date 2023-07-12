@@ -11,6 +11,7 @@ const App: FC = () => {
     if (name) {
       dispatch({ type: Actions.setName, payload: name });
     }
+    
   }, []);
   return (
     <div className="App">
