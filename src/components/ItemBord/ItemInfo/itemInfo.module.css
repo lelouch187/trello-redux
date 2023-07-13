@@ -11,3 +11,14 @@
    cursor: pointer;
    margin-left: 10px;
 }
+.input{
+   margin: 0px 10px 20px 0px;
+   font-size: 16px;
+   padding: 5px;
+}
+.close{
+   cursor: pointer;
+}
+.save{
+   cursor: pointer;
+}

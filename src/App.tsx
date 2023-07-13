@@ -12,7 +12,7 @@ const App: FC = () => {
     if (name) {
       dispatch({ type: Actions.setName, payload: name });
     }
-    //eslint-disable-next-line    
+    //eslint-disable-next-line   
   }, []);
   return (
     <div className="App">

@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import s from './itemInfo.module.css';
 import { ICard, ITask } from '../../../types/card';
 import { Actions, AppContext } from '../../../AppContext';
@@ -12,7 +12,8 @@ interface IItemInfo {
 
 const ItemInfo: FC<IItemInfo> = ({ name, card, task,closeCard  }) => {
   const { state,dispatch} = useContext(AppContext)
-
+  const [isVisibleInput, setVisibleInput] = useState(false);
+  const [value, setValue] = useState(task.title);
   const deletecard=()=>{
     const newTasks = card.tasks.filter((item:ITask)=>item.id!==task.id)
     const newCard = {...card, tasks:newTasks}
@@ -26,17 +27,48 @@ const ItemInfo: FC<IItemInfo> = ({ name, card, task,closeCard  }) => {
     localStorage.setItem('cards', JSON.stringify(cards));
     closeCard()
   }
+  const chengeNameCard = () => {
+
+    const newTasks = card.tasks.map(item=>{
+      if (item.id===task.id) {
+        return {...task, title:value}
+      }
+      return item
+    })
+    const newCard = {...card, tasks:newTasks}
+    dispatch({type:Actions.deleteTask, payload:newCard})
+    const cards = state.cards.map((card:ICard)=>{
+      if (card.id===newCard.id) {
+        return newCard
+      }
+      return card
+    })
+    setVisibleInput((prev) => !prev);
+    localStorage.setItem('cards', JSON.stringify(cards));
+  }
   return (
     <div className={s.info}>
       <div className={s.title}>
         <p className={s.name}>{name}</p>
         <h3 className={s.title_card}>{card.titleCard}</h3>
       </div>
-      <div className={s.task}>
-      <h2 >{task.title}</h2>
-      <span onClick={deletecard}
-      className={s.button}>&#128465;</span>
-      </div>
+      {isVisibleInput?
+              <div>
+              <input className={s.input}
+                value={value}
+                onChange={(e) => setValue(() => e.target.value)}
+              />
+              <span className={s.save}
+              onClick={chengeNameCard}>&#10004;</span>
+            </div>
+            :
+            <div className={s.task}>
+            <h2 onClick={() => setVisibleInput((prev) => !prev)} >{task.title|| 'Поле не может быть пустым'}</h2>
+            <span onClick={deletecard}
+            className={s.button}>&#128465;</span>
+            </div>
+      }
+
     </div>
   );
 };
