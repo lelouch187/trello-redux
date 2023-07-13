@@ -5,10 +5,9 @@ import { ICard } from '../../../../types/card';
 
 interface ICardTitleProps {
   titleCard: string;
-  index: number;
 }
 
-const CardTitle: FC<ICardTitleProps> = ({ titleCard, index }) => {
+const CardTitle: FC<ICardTitleProps> = ({ titleCard }) => {
   const [value, setValue] = useState(titleCard);
   const { state, dispatch } = useContext(AppContext);
   const [isVisibleInput, setVisibleInput] = useState(false);
@@ -21,16 +20,15 @@ const CardTitle: FC<ICardTitleProps> = ({ titleCard, index }) => {
       }
       return card
    })
-   dispatch({type:Actions.setCardName, payload:cards})
+   dispatch({type:Actions.changeCard, payload:cards})
     setVisibleInput((prev) => !prev);
-    localStorage.setItem('cardTitle', JSON.stringify(cards));
+    localStorage.setItem('cards', JSON.stringify(cards));
   };
   useEffect(() => {
-    const storageValue = localStorage.getItem('cardTitle');
+    const storageValue = localStorage.getItem('cards');
     if (storageValue) {
       const value = JSON.parse(storageValue);
-      dispatch({type:Actions.setCardName, payload:value});
-      setValue(value[index].titleCard);
+      dispatch({type:Actions.changeCard, payload:value});
     }
     //eslint-disable-next-line
   }, []);

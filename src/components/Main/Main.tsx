@@ -8,11 +8,9 @@ const Main:FC = () => {
    const {state} = useContext(AppContext)
   return (
     <main className={s.main}>
-     {state.cards.map((item:ICard, index:number)=>{
-      return <Card tasks={item.tasks}
-      index={index}
-      key={index}
-      titleCard={item.titleCard}
+     {state.cards.map((item:ICard)=>{
+      return <Card card={item}
+      key={item.id}
       />
      })}
     </main>

@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from 'react';
-import { ICard } from './types/card';
+import { IActiveTask, ICard } from './types/card';
+import { nanoid } from 'nanoid';
 
 export interface State {
   popup: {
@@ -7,12 +8,15 @@ export interface State {
     name: string;
   };
   cards: ICard[];
+  activeTask: IActiveTask;
 }
 
 export enum Actions {
   setName = 'setName',
-  setCardName = 'setCardName',
-  addTask='addTask'
+  changeCard = 'changeCard',
+  showTask = 'showTask',
+  closeCard = 'closeCard',
+  deleteTask='deleteTask'
 }
 
 interface Action {
@@ -27,31 +31,51 @@ const initialValue: State = {
   },
   cards: [
     {
+      id: nanoid(),
       titleCard: 'TODO',
       tasks: [],
     },
     {
+      id: nanoid(),
       titleCard: 'In Progress',
       tasks: [],
     },
     {
+      id: nanoid(),
       titleCard: 'Testing',
       tasks: [],
     },
     {
+      id: nanoid(),
       titleCard: 'Done',
       tasks: [],
     },
   ],
+  activeTask: {
+    isVisible: false,
+    indexCard: null,
+    indexTask: null,
+  },
 };
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case Actions.setName:
       return { ...state, popup: { ...state.popup, name: action.payload!, visible: false } };
-    case Actions.setCardName:
+    case Actions.changeCard:
       return { ...state, cards: action.payload! };
-      case Actions.addTask:
-       return {...state, cards: action.payload }
+    case Actions.showTask:
+      return { ...state, activeTask: action.payload };
+    case Actions.closeCard:
+      return { ...state, activeTask: initialValue.activeTask };
+    case Actions.deleteTask:
+      return {
+    ...state, cards: state.cards.map(card=>{
+      if (card.id===action.payload.id) {
+        return action.payload
+      }
+      return card
+    })
+      };
     default:
       return state;
   }

@@ -1,0 +1,13 @@
+.title{
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 20px;
+}
+.task{
+   margin-bottom: 20px;
+   display: flex;
+}
+.button{
+   cursor: pointer;
+   margin-left: 10px;
+}

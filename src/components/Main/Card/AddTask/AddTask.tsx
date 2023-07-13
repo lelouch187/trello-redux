@@ -1,44 +1,35 @@
-import React, { FC, useState, useContext, useEffect } from 'react';
+import React, { FC, useState, useContext } from 'react';
 import s from './addTask.module.css';
 import { Actions, AppContext } from '../../../../AppContext';
 import { ICard, ITask } from '../../../../types/card';
+import { nanoid } from 'nanoid';
 
 interface IAddTaskProps{
-   index:number;
+   id:string;
 }
 
-const AddTask: FC<IAddTaskProps> = ({index}) => {
+const AddTask: FC<IAddTaskProps> = ({id}) => {
   const [isVisibArea, setVisibArea] = useState(false);
   const [value, setValue] = useState('');
   const {state ,dispatch} = useContext(AppContext)
   const addNewTask = ()=>{
    const task:ITask = {
+      id:nanoid(),
       title:value,
       description:'',
       comments: [],
    }
-   const cards = state.cards.map((card:ICard, i:number)=>{
-      if (i===index) {
+   const cards = state.cards.map((card:ICard)=>{
+      if (card.id===id) {
            return {...card, tasks:[...card.tasks, task]}
       }
       return card
    })
-   dispatch({type:Actions.addTask, payload:cards})
+   dispatch({type:Actions.changeCard, payload:cards})
    setValue('')
    setVisibArea(prev=>!prev)
-   localStorage.setItem('addTask', JSON.stringify(cards));
+   localStorage.setItem('cards', JSON.stringify(cards));
   }
-  
-
-useEffect(() => {
-  const storageValue = localStorage.getItem('addTask');
-  if (storageValue) {
-    const value = JSON.parse(storageValue);
-    dispatch({type:Actions.addTask, payload:value});
-  }
-  //eslint-disable-next-line
-}, []);
-
 
   return <>{isVisibArea ? 
    <div>
