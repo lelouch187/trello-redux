@@ -18,7 +18,7 @@ const Card:FC<ICardProprs> = ({titleCard, index, tasks}) => {
       {tasks&&
         <Task tasks={tasks} />
       }      
-      <AddTask titleCard={titleCard} />
+      <AddTask index={index} />
     </div>
   )
 }

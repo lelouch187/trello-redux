@@ -1,0 +1,20 @@
+.task{
+background-color: #282e33;
+border-radius: 8px;
+display: flex;
+align-items: center;
+padding: 10px;
+margin-bottom: 10px;
+}
+.title{
+   margin-right: 10px;
+}
+.dialogImg{
+   width: 20px;
+
+}
+.img{
+   width: 100%;
+   background-color: white;
+   
+}

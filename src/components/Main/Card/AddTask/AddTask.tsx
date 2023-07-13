@@ -4,10 +4,10 @@ import { Actions, AppContext } from '../../../../AppContext';
 import { ICard, ITask } from '../../../../types/card';
 
 interface IAddTaskProps{
-   titleCard:string;
+   index:number;
 }
 
-const AddTask: FC<IAddTaskProps> = ({titleCard}) => {
+const AddTask: FC<IAddTaskProps> = ({index}) => {
   const [isVisibArea, setVisibArea] = useState(false);
   const [value, setValue] = useState('');
   const {state ,dispatch} = useContext(AppContext)
@@ -17,8 +17,8 @@ const AddTask: FC<IAddTaskProps> = ({titleCard}) => {
       description:'',
       comments: [],
    }
-   const cards = state.cards.map((card:ICard)=>{
-      if (card.titleCard===titleCard) {
+   const cards = state.cards.map((card:ICard, i:number)=>{
+      if (i===index) {
            return {...card, tasks:[...card.tasks, task]}
       }
       return card
