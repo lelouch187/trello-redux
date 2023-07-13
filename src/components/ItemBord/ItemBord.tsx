@@ -25,6 +25,7 @@ const ItemBord: FC = () => {
     }
     window.addEventListener('keydown', close)
   return () => window.removeEventListener('keydown', close)
+  //eslint-disable-next-line
 },[])
   return (
     <div className={s.popup_wrapper}>
@@ -34,7 +35,8 @@ const ItemBord: FC = () => {
           card={currentCard}
           name={state.popup.name}
         />
-        <ItemDecription description={currentTask.description} />
+        <ItemDecription task={currentTask}
+          card={currentCard} />
         <ItemComments comments={currentTask.comments} name={state.popup.name} />
         <span onClick={closeCard}
         className={s.close}>&#10060;</span>
