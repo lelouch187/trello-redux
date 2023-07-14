@@ -19,3 +19,7 @@ button{
    width: 200px;
    cursor: pointer;
 }
+span{
+   margin-left: 10px;
+   cursor: pointer;
+}

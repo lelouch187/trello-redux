@@ -14,3 +14,23 @@
    margin-right: 10px;
    width: 300px;
 }
+.comment{
+   position: relative;
+   margin: 10px 0;
+   padding: 10px;
+   background-color: #282e33;
+   border-radius: 8px;
+}
+.comment_title{
+   margin-bottom: 10px;
+}
+.comment_text{
+   font-weight: bold;
+   font-size: 18px;
+   letter-spacing: 2px;
+}
+.comment_delete{
+   position: absolute;
+   top: 3px;
+   right: 3px;
+}

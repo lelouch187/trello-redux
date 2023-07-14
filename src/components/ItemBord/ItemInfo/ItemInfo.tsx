@@ -28,22 +28,24 @@ const ItemInfo: FC<IItemInfo> = ({ name, card, task, closeCard }) => {
     closeCard();
   };
   const chengeNameCard = () => {
-    const newTasks = card.tasks.map((item) => {
-      if (item.id === task.id) {
-        return { ...task, title: value };
-      }
-      return item;
-    });
-    const newCard = { ...card, tasks: newTasks };
-    dispatch({ type: Actions.deleteTask, payload: newCard });
-    const cards = state.cards.map((card: ICard) => {
-      if (card.id === newCard.id) {
-        return newCard;
-      }
-      return card;
-    });
-    setVisibleInput((prev) => !prev);
-    localStorage.setItem('cards', JSON.stringify(cards));
+    if (value.trim().length > 0) {
+      const newTasks = card.tasks.map((item) => {
+        if (item.id === task.id) {
+          return { ...task, title: value };
+        }
+        return item;
+      });
+      const newCard = { ...card, tasks: newTasks };
+      dispatch({ type: Actions.deleteTask, payload: newCard });
+      const cards = state.cards.map((card: ICard) => {
+        if (card.id === newCard.id) {
+          return newCard;
+        }
+        return card;
+      });
+      setVisibleInput((prev) => !prev);
+      localStorage.setItem('cards', JSON.stringify(cards));
+    }
   };
   return (
     <div className={s.info}>

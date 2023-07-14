@@ -1,6 +1,5 @@
 import React, { FC, useContext } from 'react';
 import { ITask } from '../../../../types/card';
-import dialogsSvg from '../../../../assets/images/dialogs.svg';
 import s from './task.module.css';
 import { nanoid } from 'nanoid';
 import { Actions, AppContext } from '../../../../AppContext';
@@ -31,7 +30,7 @@ const Task: FC<ITaskProps> = ({ tasks,idCard }) => {
             {task.comments.length>0 && (
               <>
               <p className={s.dialogImg}>
-                {/* <image className={s.img} src={dialogsSvg} alt="image" /> */}
+              &#9200;
               </p>
               <span>{task.comments.length}</span>
             </>

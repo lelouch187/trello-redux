@@ -37,7 +37,9 @@ const ItemBord: FC = () => {
         />
         <ItemDecription task={currentTask}
           card={currentCard} />
-        <ItemComments comments={currentTask.comments} name={state.popup.name} />
+        <ItemComments task={currentTask}
+        card={currentCard} 
+        name={state.popup.name} />
         <span onClick={closeCard}
         className={s.close}>&#10060;</span>
       </div>
