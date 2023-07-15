@@ -11,6 +11,15 @@ interface IItemDecription {
 const ItemDecription: FC<IItemDecription> = ({ card, task }) => {
   const { state, dispatch } = useContext(AppContext);
   const [value, setValue] = useState(task.description);
+  const cards =(changeCard:ICard)=>{
+    state.cards.map((card: ICard) => {
+      if (card.id === changeCard.id) {
+        return changeCard;
+      }
+      return card;
+    });
+    localStorage.setItem('cards', JSON.stringify(cards));
+  } 
   const addDescription = () => {
     const newTasks = card.tasks.map((item) => {
       if (item.id === task.id) {
@@ -19,14 +28,8 @@ const ItemDecription: FC<IItemDecription> = ({ card, task }) => {
       return item;
     });
     const newCard = { ...card, tasks: newTasks };
-    dispatch({ type: Actions.deleteTask, payload: newCard });
-    const cards = state.cards.map((card: ICard) => {
-      if (card.id === newCard.id) {
-        return newCard;
-      }
-      return card;
-    });
-    localStorage.setItem('cards', JSON.stringify(cards));
+    dispatch({ type: Actions.changeTask, payload: newCard });
+    cards(newCard)
   };
   const deleteDescription = () =>{
     const newTasks = card.tasks.map((item) => {
@@ -36,15 +39,9 @@ const ItemDecription: FC<IItemDecription> = ({ card, task }) => {
       return item;
     });
     const newCard = { ...card, tasks: newTasks };
-    dispatch({ type: Actions.deleteTask, payload: newCard });
-    const cards = state.cards.map((card: ICard) => {
-      if (card.id === newCard.id) {
-        return newCard;
-      }
-      return card;
-    });
+    dispatch({ type: Actions.changeTask, payload: newCard });
+    cards(newCard)
     setValue('')
-    localStorage.setItem('cards', JSON.stringify(cards));
   }
   const changeDescription = () =>{
     const oldValue = value;

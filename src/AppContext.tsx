@@ -16,7 +16,7 @@ export enum Actions {
   changeCard = 'changeCard',
   showTask = 'showTask',
   closeCard = 'closeCard',
-  deleteTask='deleteTask'
+  changeTask='changeTask'
 }
 
 interface Action {
@@ -67,7 +67,7 @@ const reducer = (state: State, action: Action) => {
       return { ...state, activeTask: action.payload };
     case Actions.closeCard:
       return { ...state, activeTask: initialValue.activeTask };
-    case Actions.deleteTask:
+    case Actions.changeTask:
       return {
     ...state, cards: state.cards.map(card=>{
       if (card.id===action.payload.id) {

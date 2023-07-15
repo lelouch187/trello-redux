@@ -16,6 +16,17 @@ const ItemComments: FC<IItemComments> = ({ name, card, task }) => {
   const [newComment, setNewComment] = useState('');
   const [renameComment, setRenameComment] = useState('');
 
+  const saveCard = (changeTasks:ITask[]) =>{
+    const newCard = { ...card, tasks: changeTasks };
+      dispatch({ type: Actions.changeTask, payload: newCard });
+      const cards = state.cards.map((card: ICard) => {
+        if (card.id === newCard.id) {
+          return newCard;
+        }
+        return card;
+      });
+      localStorage.setItem('cards', JSON.stringify(cards));
+  }
   const addComment = () => {
    if (newComment.trim().length>0) {
       const comment = { id: nanoid(), value: newComment };
@@ -25,16 +36,8 @@ const ItemComments: FC<IItemComments> = ({ name, card, task }) => {
         }
         return item;
       });
-      const newCard = { ...card, tasks: newTasks };
-      dispatch({ type: Actions.deleteTask, payload: newCard });
-      const cards = state.cards.map((card: ICard) => {
-        if (card.id === newCard.id) {
-          return newCard;
-        }
-        return card;
-      });
+      saveCard(newTasks)
       setNewComment('');
-      localStorage.setItem('cards', JSON.stringify(cards));
    }  
   };
   const deleteComment = (id: string) => {
@@ -45,15 +48,7 @@ const ItemComments: FC<IItemComments> = ({ name, card, task }) => {
       }
       return item;
     });
-    const newCard = { ...card, tasks: newTasks };
-    dispatch({ type: Actions.deleteTask, payload: newCard });
-    const cards = state.cards.map((card: ICard) => {
-      if (card.id === newCard.id) {
-        return newCard;
-      }
-      return card;
-    });
-    localStorage.setItem('cards', JSON.stringify(cards));
+    saveCard(newTasks)
   };
   const changeComment = (id: string) =>{
    if(renameComment.trim().length>0 ){
@@ -69,15 +64,7 @@ const ItemComments: FC<IItemComments> = ({ name, card, task }) => {
         }
         return item;
       });
-      const newCard = { ...card, tasks: newTasks };
-      dispatch({ type: Actions.deleteTask, payload: newCard });
-      const cards = state.cards.map((card: ICard) => {
-        if (card.id === newCard.id) {
-          return newCard;
-        }
-        return card;
-      });
-      localStorage.setItem('cards', JSON.stringify(cards));
+      saveCard(newTasks)
       setVisibleInput('')
    }
   }
