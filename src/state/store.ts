@@ -1,7 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
+import * as reducers from "./ducks";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    userName:reducers.userName
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>
