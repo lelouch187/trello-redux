@@ -17,9 +17,9 @@ const App: FC = () => {
   return (
     <div className="App">
       {state.popup.visible&&!localStorage.getItem('name') && <Popup />}
-      {state.activeTask.isVisible && <ItemBord />}
+      {/* {state.activeTask.isVisible && <ItemBord />}
       <Header />
-      <Main />
+      <Main /> */}
     </div>
   );
 };

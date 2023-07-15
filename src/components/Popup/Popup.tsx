@@ -2,15 +2,16 @@ import React, { FC, useState, useContext } from 'react'
 import s from './popup.module.css'
 import { AppContext } from '../../AppContext';
 import { Actions } from '../../AppContext';
+import { useAppDispatch } from '../../state/hooks';
 
 const Popup:FC = () => {
    const [name, setName] = useState('');
    const [error, setError] = useState(false);
-   const {dispatch} = useContext(AppContext);
+   const dispatch = useAppDispatch()
    const onSetName = () => {
       if (name.trim()){
        localStorage.setItem("name",name)  
-       dispatch({type:Actions.setName, payload:name})
+       dispatch()
       } else {
          setError(true)
       }
