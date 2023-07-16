@@ -1,36 +1,41 @@
-import React, { FC, useState, useContext } from 'react'
-import s from './popup.module.css'
-import { AppContext } from '../../AppContext';
-import { Actions } from '../../AppContext';
+import React, { FC } from 'react';
+import s from './popup.module.css';
 import { useAppDispatch } from '../../state/hooks';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { saveUserName } from '../../state/ducks/userName/actions';
 
-const Popup:FC = () => {
-   const [name, setName] = useState('');
-   const [error, setError] = useState(false);
-   const dispatch = useAppDispatch()
-   const onSetName = () => {
-      if (name.trim()){
-       localStorage.setItem("name",name)  
-       dispatch()
-      } else {
-         setError(true)
-      }
-   }
+interface IUserNameInput {
+  userName: string;
+}
 
+const Popup: FC = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IUserNameInput>();
+  const dispatch = useAppDispatch();
+  const onSetName: SubmitHandler<IUserNameInput> = (data) => {
+    dispatch(saveUserName(data.userName));
+  };
 
   return (
     <div className={s.popup_wrapper}>
       <div className={s.popup}>
-         <p className={s.text}>Введите ваше имя</p>
-         <input onChange={(e)=>setName(e.target.value)}
-         value={name}
-         className={s.input} />
-         {error&&<p className={s.error}>Вы не ввели имя!</p>}
-         <button onClick={onSetName}
-         className={s.button}>Сохранить</button>
+        <p className={s.text}>Введите ваше имя</p>
+        <form className={s.form} onSubmit={handleSubmit(onSetName)}>
+          <input
+            {...register('userName', { required: true, minLength: 2 })}
+            className={s.input}
+          />
+          {errors.userName && <p className={s.error}>Вы не ввели имя!</p>}
+          <button type="submit" className={s.button}>
+            Сохранить
+          </button>
+        </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Popup
+export default Popup;
