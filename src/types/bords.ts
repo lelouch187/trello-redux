@@ -10,9 +10,9 @@ export interface ITask {
    comments: IComments[];
 }
 
-export interface ICard{
+export interface IBord{
    id:string;
-   titleCard:string;
+   titleBord:string;
    tasks:ITask[]
 }
 export interface IActiveTask{

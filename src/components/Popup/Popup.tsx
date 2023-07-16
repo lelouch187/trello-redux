@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import s from './popup.module.css';
 import { useAppDispatch } from '../../state/hooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { saveUserName } from '../../state/ducks/userName/actions';
+import { userNameActions } from '../../state/ducks/userName';
 
 interface IUserNameInput {
   userName: string;
@@ -16,7 +16,7 @@ const Popup: FC = () => {
   } = useForm<IUserNameInput>();
   const dispatch = useAppDispatch();
   const onSetName: SubmitHandler<IUserNameInput> = (data) => {
-    dispatch(saveUserName(data.userName));
+    dispatch(userNameActions.saveUserName(data.userName));
   };
 
   return (

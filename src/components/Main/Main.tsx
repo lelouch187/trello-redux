@@ -1,20 +1,19 @@
-import React, { FC, useContext } from 'react'
-import s from './main.module.css'
-import Card from './Card/Card'
-import { AppContext } from '../../AppContext'
-import { ICard } from '../../types/card'
+import React, { FC } from 'react';
+import s from './main.module.css';
+import Bord from './Bords/Bord';
+import { IBord } from '../../types/bords';
+import { useAppSelector } from '../../state/hooks';
+import { bordsSelectors } from '../../state/ducks/bords';
 
-const Main:FC = () => {
-   const {state} = useContext(AppContext)
+const Main: FC = () => {
+  const bords = useAppSelector(bordsSelectors.selectBords)
   return (
     <main className={s.main}>
-     {state.cards.map((item:ICard)=>{
-      return <Card card={item}
-      key={item.id}
-      />
-     })}
+      {bords.map((bord: IBord) => {
+        return <Bord bord={bord} key={bord.id} />;
+      })}
     </main>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
