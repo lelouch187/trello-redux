@@ -3,4 +3,13 @@
 }
 .input{
    margin: 0px 10px 20px 0px;
+   padding: 10px;
+   border-radius: 8px;
+}
+.save{
+   background: none;
+   border: none;
+   color:white;
+   cursor: pointer;
+   padding: 5px;
 }

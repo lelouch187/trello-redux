@@ -1,4 +1,3 @@
-import React, { FC, useContext } from 'react';
 import { ITask } from '../../../../types/bords';
 import s from './task.module.css';
 import { nanoid } from '@reduxjs/toolkit';
@@ -6,10 +5,10 @@ import { nanoid } from '@reduxjs/toolkit';
 
 interface ITaskProps {
   tasks: ITask[];
-  idCard: string;
+  idBord: string;
 }
 
-const Task: FC<ITaskProps> = ({ tasks, idCard }) => {
+const Task = ({ tasks, idBord }:ITaskProps) => {
  
 
   return (

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { useState } from 'react';
 import s from './bordTitle.module.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../../../state/hooks';
@@ -13,18 +13,21 @@ interface IFormInputs {
   titleBord: string;
 }
 
-const BordTitle: FC<IBordTitleProps> = ({ titleBord, bordId }) => {
+const BordTitle = ({ titleBord, bordId }:IBordTitleProps) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<IFormInputs>({
     defaultValues: {
       titleBord,
     },
   });
+
   const [isVisibleInput, setVisibleInput] = useState(false);
+
   const dispatch = useAppDispatch();
+  
   const changeBordTitle: SubmitHandler<IFormInputs> = (data) => {
     dispatch(
       bordsActions.saveBordName({ id: bordId, BordTitle: data.titleBord }),
@@ -40,7 +43,8 @@ const BordTitle: FC<IBordTitleProps> = ({ titleBord, bordId }) => {
           <input className={s.input}
             {...register('titleBord', { required: true, minLength: 2 })}
           />
-          <input type="submit" value="&#10004;" />
+          <input className={s.save}
+          type="submit" value="&#10004;" />
         </form>
         <div>{errors.titleBord && 'Поле не может быть пустым'}</div>
         </>

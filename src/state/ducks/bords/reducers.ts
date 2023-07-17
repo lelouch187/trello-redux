@@ -5,9 +5,15 @@ import { IBord } from '../../../types/bords';
 export interface BordsState {
   bords: IBord[];
 }
+
 interface saveBordNameAction {
-    id:string;
-    BordTitle:string;
+  id: string;
+  BordTitle: string;
+}
+
+interface addTaskAction {
+  id: string;
+  TaskTitle: string;
 }
 
 const initialState: BordsState = {
@@ -40,13 +46,27 @@ export const bordsSlice = createSlice({
   initialState,
   reducers: {
     saveBordName: (state, action: PayloadAction<saveBordNameAction>) => {
-       state.bords.map(bord=>{
-        if (bord.id===action.payload.id) {
-            return bord.titleBord = action.payload.BordTitle
+      state.bords.map((bord) => {
+        if (bord.id === action.payload.id) {
+          return (bord.titleBord = action.payload.BordTitle);
         }
-        return bord
-       })
-      },
+        return bord;
+      });
+    },
+    addTask: (state, action: PayloadAction<addTaskAction>) => {
+      const newTask = {
+        id: nanoid(),
+        title: action.payload.TaskTitle,
+        description: '',
+        comments: [],
+      };
+      state.bords.map((bord) => {
+        if (bord.id === action.payload.id) {
+          return bord.tasks.push(newTask);
+        }
+        return bord;
+      });
+    },
   },
 });
 

@@ -1,3 +1,3 @@
 import {bordsSlice} from './reducers'
 
-export const { saveBordName } = bordsSlice.actions;
+export const { saveBordName, addTask } = bordsSlice.actions;
