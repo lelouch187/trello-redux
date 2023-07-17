@@ -16,6 +16,28 @@ interface addTaskAction {
   TaskTitle: string;
 }
 
+export interface deleteTaskAction {
+  idBord:string;
+  idTask:string;
+}
+
+export interface changeDescriptionAction extends deleteTaskAction{
+  descriptionTask:string;
+}
+
+export interface changeTaskTitleAction extends deleteTaskAction{
+  titleTask:string;
+}
+export interface addCommentTaskAction extends deleteTaskAction{
+  commentTask:string;
+}
+export interface deleteCommentTaskAction extends deleteTaskAction{
+  id:string;
+}
+export interface changeCommentTaskAction extends deleteCommentTaskAction{
+  title:string;
+}
+
 const initialState: BordsState = {
   bords: [
     {
@@ -67,6 +89,41 @@ export const bordsSlice = createSlice({
         return bord;
       });
     },
+    changeTaskTitle: (state, action: PayloadAction<changeTaskTitleAction>)=>{
+     const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
+     const task = tasks?.find(task=>task.id===action.payload.idTask)
+     task!.title=action.payload.titleTask
+    },
+    deleteTask: (state, action: PayloadAction<deleteTaskAction>)=>{
+      const bord:IBord =  state.bords.find(bord=>bord.id===action.payload.idBord)!
+      bord!.tasks = bord.tasks!.filter(task=>task.id!==action.payload.idTask)
+     },
+     changeDescriptionTask: (state, action: PayloadAction<changeDescriptionAction>)=>{
+      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
+      const task = tasks?.find(task=>task.id===action.payload.idTask)
+      task!.description=action.payload.descriptionTask
+     },
+     deleteDescriptionTask: (state, action: PayloadAction<deleteTaskAction>)=>{
+      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
+      const task = tasks?.find(task=>task.id===action.payload.idTask)
+      task!.description=''
+     },
+     addCommentTask: (state, action: PayloadAction<addCommentTaskAction>)=>{
+      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
+      const task = tasks?.find(task=>task.id===action.payload.idTask)
+      task!.comments.push({id:nanoid(),value:action.payload.commentTask})
+     },
+     deleteCommentTask: (state, action: PayloadAction<deleteCommentTaskAction>)=>{
+      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
+      const task = tasks?.find(task=>task.id===action.payload.idTask)
+      task!.comments = task!.comments.filter(comment=>comment.id!==action.payload.id)
+     },
+     changeCommentTask: (state, action: PayloadAction<changeCommentTaskAction>)=>{
+      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
+      const task = tasks!.find(task=>task.id===action.payload.idTask)
+      const comment = task?.comments.find(comment=>comment.id===action.payload.id)
+      comment!.value=action.payload.title
+     },
   },
 });
 

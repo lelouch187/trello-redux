@@ -5,5 +5,6 @@ import { rootReducer } from './rootReducer';
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['activeTask']
 };
 export const persistedReducer = persistReducer(persistConfig, rootReducer);

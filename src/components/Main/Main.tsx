@@ -1,4 +1,3 @@
-import React from 'react';
 import s from './main.module.css';
 import Bord from './Bords/Bord';
 import { IBord } from '../../types/bords';

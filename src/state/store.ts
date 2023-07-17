@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import * as reducers from "./ducks";
 import { persistedReducer } from './persistReducer';
 import { persistStore } from 'redux-persist';
 import {

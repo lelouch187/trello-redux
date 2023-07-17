@@ -1,6 +1,7 @@
+import { activeTaskActions } from '../../../../state/ducks/activeTask';
+import { useAppDispatch } from '../../../../state/hooks';
 import { ITask } from '../../../../types/bords';
 import s from './task.module.css';
-import { nanoid } from '@reduxjs/toolkit';
 
 
 interface ITaskProps {
@@ -9,15 +10,15 @@ interface ITaskProps {
 }
 
 const Task = ({ tasks, idBord }:ITaskProps) => {
- 
+ const dispatch = useAppDispatch()
 
   return (
     <>
       {tasks.map((task) => {
         return (
           <div
-            onClick={()=>{}}
-            key={nanoid()}
+            onClick={()=>dispatch(activeTaskActions.openTask({idBord:idBord,idTask:task.id}))}
+            key={task.id}
             className={s.task}>
             <p className={s.title}>{task.title}</p>
             {task.comments.length > 0 && (

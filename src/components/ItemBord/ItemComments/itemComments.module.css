@@ -34,3 +34,10 @@
    top: 3px;
    right: 3px;
 }
+.save{
+   margin-left: 10px;
+   width: 20px;
+   background: none;
+   border:none;
+   color:white;
+}

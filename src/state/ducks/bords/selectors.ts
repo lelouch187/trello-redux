@@ -1,4 +1,6 @@
-import { RootState } from "../../store";
+import { IBord } from '../../../types/bords';
+import { RootState } from '../../store';
 
-export const selectBords = (state: RootState) => state.bords.bords
-export const selectCard = (state: RootState) => (id:string)=>state.bords.bords.filter(card=>card.id===id)
+export const selectBords = (state: RootState) => state.bords.bords;
+export const selectBord = (id: string) => (state: RootState) =>
+  state.bords.bords.find((bord: IBord) => bord.id === id);

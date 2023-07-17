@@ -1,7 +1,15 @@
-import React, { FC, useState } from 'react';
+import { useState } from 'react';
 import { IBord, ITask } from '../../../types/bords';
 import s from './itemComments.module.css';
+import { useForm } from 'react-hook-form';
+import { addCommentTaskAction, changeCommentTaskAction, deleteCommentTaskAction } from '../../../state/ducks/bords/reducers';
+import { useAppDispatch } from '../../../state/hooks';
+import { bordsActions } from '../../../state/ducks/bords';
 
+interface CommentInput {
+  commentTitle: string;
+  changeComment: string;
+}
 
 interface IItemComments {
   name: string;
@@ -9,14 +17,42 @@ interface IItemComments {
   task: ITask;
 }
 
-const ItemComments: FC<IItemComments> = ({ name, bord, task }) => {
-
+const ItemComments = ({ name, bord, task }: IItemComments) => {
   const [visibleInput, setVisibleInput] = useState('');
-  const [newComment, setNewComment] = useState('');
-  const [renameComment, setRenameComment] = useState('');
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit, reset, setValue } = useForm<CommentInput>();
 
-  const saveBord = (changeTasks: ITask[]) => {
-    
+  const addComment = (data: CommentInput) => {
+    if (data.commentTitle.trim()){
+      const currentTask: addCommentTaskAction = {
+        idBord: bord.id,
+        idTask: task.id,
+        commentTask: data.commentTitle,
+      };
+      dispatch(bordsActions.addCommentTask(currentTask));
+      reset();
+    }
+  };
+
+  const deleteComment = (id: string) => {
+    const currentComment: deleteCommentTaskAction = {
+      idBord: bord.id,
+      idTask: task.id,
+      id,
+    };
+    dispatch(bordsActions.deleteCommentTask(currentComment));
+  };
+
+  const changeComment = (id:string) => ({changeComment}:CommentInput) => {
+    const currentComment: changeCommentTaskAction = {
+      idBord: bord.id,
+      idTask: task.id,
+      id,
+      title: changeComment
+    };
+    dispatch(bordsActions.changeCommentTask(currentComment));
+    setVisibleInput('')
+    reset()
   };
 
   return (
@@ -28,45 +64,35 @@ const ItemComments: FC<IItemComments> = ({ name, bord, task }) => {
             <div className={s.comment} key={comment.id}>
               <p className={s.comment_title}>{name}</p>
               {visibleInput === comment.id ? (
-                <div>
-                  <input
-                    onChange={(e) => setRenameComment(e.target.value)}
-                    value={renameComment}
-                  />
-                  <span
-                    className={s.save}
-                    onClick={() => {}}>
-                    &#10004;
-                  </span>
-                </div>
+                <form onSubmit={handleSubmit(changeComment(comment.id))}>
+                  <input {...register('changeComment', { required: true, minLength: 2 })} />
+                  <button type='submit' className={s.save}>&#10004;</button>
+                </form>
               ) : (
                 <p
                   onClick={() => {
                     setVisibleInput(comment.id);
-                    setRenameComment(comment.value);
+                    setValue('changeComment', comment.value);
                   }}
                   className={s.comment_text}>
                   {comment.value}
                 </p>
               )}
-              <span
-                onClick={() => {}}
-                className={s.comment_delete}>
+              <span onClick={() => deleteComment(comment.id)} className={s.comment_delete}>
                 &#10060;
               </span>
             </div>
           );
         })}
-      <div className={s.add_comment}>
+      <form onSubmit={handleSubmit(addComment)} className={s.add_comment}>
         <input
-          onChange={(e) => setNewComment(e.target.value)}
-          value={newComment}
+          {...register('commentTitle')}
           className={s.input}
         />
-        <button onClick={()=>{}} className={s.button}>
+        <button type="submit" className={s.button}>
           Добавить комментарии
         </button>
-      </div>
+      </form>
     </div>
   );
 };

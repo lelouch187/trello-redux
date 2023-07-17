@@ -17,6 +17,6 @@ export interface IBord{
 }
 export interface IActiveTask{
    isVisible:boolean;
-   indexCard:string|null;
+   indexBord:string|null;
    indexTask:string|null;
 }
