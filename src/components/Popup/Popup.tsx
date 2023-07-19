@@ -1,4 +1,4 @@
-import s from './popup.module.css';
+import s from './popup.module.scss';
 import { useAppDispatch } from '../../state/hooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { userNameActions } from '../../state/ducks/userName';

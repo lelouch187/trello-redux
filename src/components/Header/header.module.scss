@@ -1,0 +1,10 @@
+@import '../../variables.scss';
+
+.header{
+   background-color: $background-black;
+   height: 70px;
+   padding: 10px 0px 0px 10px;
+}
+.title{
+   color:$text-color;
+}

@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .title{
    margin-bottom: 10px;
 }
@@ -6,6 +8,8 @@
 }
 .button{
    padding: 5px 10px;
+   border: none;
+   background-color: $button-color;
    cursor: pointer;
 }
 .input{
@@ -18,7 +22,7 @@
    position: relative;
    margin: 10px 0;
    padding: 10px;
-   background-color: #282e33;
+   background-color: $background-gray;
    border-radius: 8px;
 }
 .comment_title{
@@ -39,5 +43,5 @@
    width: 20px;
    background: none;
    border:none;
-   color:white;
+   color: $text-color;
 }
