@@ -1,11 +1,13 @@
+@import '../../../variables.scss';
+
 .bord {
-   background-color:#101204;
+   background-color:$background-black;
    width: 400px;
    height: max-content;
    border-radius: 8px;
    padding: 20px;
    cursor: pointer;
    font-size: 24px;
-   color: #b6c2cf;
+   color: $text-color;
    margin-right: 50px;
 }

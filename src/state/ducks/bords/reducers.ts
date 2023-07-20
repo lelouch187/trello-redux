@@ -6,36 +6,36 @@ export interface BordsState {
   bords: IBord[];
 }
 
-interface saveBordNameAction {
+interface ISaveBordName {
   id: string;
   BordTitle: string;
 }
 
-interface addTaskAction {
+interface INewTask {
   id: string;
   TaskTitle: string;
 }
 
-export interface deleteTaskAction {
-  idBord:string;
-  idTask:string;
+export interface IDeleteTask {
+  idBord: string;
+  idTask: string;
 }
 
-export interface changeDescriptionAction extends deleteTaskAction{
-  descriptionTask:string;
+export interface IChangeDescription extends IDeleteTask {
+  descriptionTask: string;
 }
 
-export interface changeTaskTitleAction extends deleteTaskAction{
-  titleTask:string;
+export interface IChangeTaskTitle extends IDeleteTask {
+  titleTask: string;
 }
-export interface addCommentTaskAction extends deleteTaskAction{
-  commentTask:string;
+export interface IAddCommentTask extends IDeleteTask {
+  commentTask: string;
 }
-export interface deleteCommentTaskAction extends deleteTaskAction{
-  id:string;
+export interface IDeleteCommentTask extends IDeleteTask {
+  id: string;
 }
-export interface changeCommentTaskAction extends deleteCommentTaskAction{
-  title:string;
+export interface IChangeCommentTask extends IDeleteCommentTask {
+  title: string;
 }
 
 const initialState: BordsState = {
@@ -67,7 +67,7 @@ export const bordsSlice = createSlice({
   name: 'bords',
   initialState,
   reducers: {
-    saveBordName: (state, action: PayloadAction<saveBordNameAction>) => {
+    saveBordName: (state, action: PayloadAction<ISaveBordName>) => {
       state.bords.map((bord) => {
         if (bord.id === action.payload.id) {
           return (bord.titleBord = action.payload.BordTitle);
@@ -75,7 +75,7 @@ export const bordsSlice = createSlice({
         return bord;
       });
     },
-    addTask: (state, action: PayloadAction<addTaskAction>) => {
+    addTask: (state, action: PayloadAction<INewTask>) => {
       const newTask = {
         id: nanoid(),
         title: action.payload.TaskTitle,
@@ -89,41 +89,86 @@ export const bordsSlice = createSlice({
         return bord;
       });
     },
-    changeTaskTitle: (state, action: PayloadAction<changeTaskTitleAction>)=>{
-     const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
-     const task = tasks?.find(task=>task.id===action.payload.idTask)
-     task!.title=action.payload.titleTask
+    changeTaskTitle: (state, action: PayloadAction<IChangeTaskTitle>) => {
+      const tasks = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      )?.tasks;
+      const task = tasks?.find((task) => task.id === action.payload.idTask);
+      if (task !== undefined) {
+        task.title = action.payload.titleTask;
+      }
     },
-    deleteTask: (state, action: PayloadAction<deleteTaskAction>)=>{
-      const bord:IBord =  state.bords.find(bord=>bord.id===action.payload.idBord)!
-      bord!.tasks = bord.tasks!.filter(task=>task.id!==action.payload.idTask)
-     },
-     changeDescriptionTask: (state, action: PayloadAction<changeDescriptionAction>)=>{
-      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
-      const task = tasks?.find(task=>task.id===action.payload.idTask)
-      task!.description=action.payload.descriptionTask
-     },
-     deleteDescriptionTask: (state, action: PayloadAction<deleteTaskAction>)=>{
-      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
-      const task = tasks?.find(task=>task.id===action.payload.idTask)
-      task!.description=''
-     },
-     addCommentTask: (state, action: PayloadAction<addCommentTaskAction>)=>{
-      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
-      const task = tasks?.find(task=>task.id===action.payload.idTask)
-      task!.comments.push({id:nanoid(),value:action.payload.commentTask})
-     },
-     deleteCommentTask: (state, action: PayloadAction<deleteCommentTaskAction>)=>{
-      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
-      const task = tasks?.find(task=>task.id===action.payload.idTask)
-      task!.comments = task!.comments.filter(comment=>comment.id!==action.payload.id)
-     },
-     changeCommentTask: (state, action: PayloadAction<changeCommentTaskAction>)=>{
-      const tasks =  state.bords.find(bord=>bord.id===action.payload.idBord)?.tasks
-      const task = tasks!.find(task=>task.id===action.payload.idTask)
-      const comment = task?.comments.find(comment=>comment.id===action.payload.id)
-      comment!.value=action.payload.title
-     },
+    deleteTask: (state, action: PayloadAction<IDeleteTask>) => {
+      const bord = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      );
+      if (bord !== undefined) {
+        bord.tasks = bord.tasks.filter(
+          (task) => task.id !== action.payload.idTask,
+        );
+      }
+    },
+    changeDescriptionTask: (
+      state,
+      action: PayloadAction<IChangeDescription>,
+    ) => {
+      const tasks = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      )?.tasks;
+      const task = tasks?.find((task) => task.id === action.payload.idTask);
+      if (task !== undefined) {
+        task.description = action.payload.descriptionTask;
+      }
+    },
+    deleteDescriptionTask: (state, action: PayloadAction<IDeleteTask>) => {
+      const tasks = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      )?.tasks;
+      const task = tasks?.find((task) => task.id === action.payload.idTask);
+      if (task !== undefined) {
+        task.description = '';
+      }
+    },
+    addCommentTask: (state, action: PayloadAction<IAddCommentTask>) => {
+      const tasks = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      )?.tasks;
+      const task = tasks?.find((task) => task.id === action.payload.idTask);
+      if (task !== undefined) {
+        task.comments.push({ id: nanoid(), value: action.payload.commentTask });
+      }
+    },
+    deleteCommentTask: (
+      state,
+      action: PayloadAction<IDeleteCommentTask>,
+    ) => {
+      const tasks = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      )?.tasks;
+      const task = tasks?.find((task) => task.id === action.payload.idTask);
+      if (task !== undefined) {
+        task.comments = task!.comments.filter(
+          (comment) => comment.id !== action.payload.id,
+        );
+      }
+    },
+    changeCommentTask: (
+      state,
+      action: PayloadAction<IChangeCommentTask>,
+    ) => {
+      const tasks = state.bords.find(
+        (bord) => bord.id === action.payload.idBord,
+      )?.tasks;
+      if (tasks !== undefined) {
+        const task = tasks.find((task) => task.id === action.payload.idTask);
+        const comment = task?.comments.find(
+          (comment) => comment.id === action.payload.id,
+        );
+        if (comment !== undefined) {
+          comment.value = action.payload.title;
+        }
+      }
+    },
   },
 });
 
