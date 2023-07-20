@@ -8,7 +8,7 @@ import {
 } from '../../../state/ducks/bords/reducers';
 import { useAppDispatch } from '../../../state/hooks';
 import { bordsActions } from '../../../state/ducks/bords';
-import { RED_CROSS_SYMBOL } from '../../../variables/icons';
+import { CHECK_SYMBOL, RED_CROSS_SYMBOL } from '../../../variables/icons';
 
 
 interface CommentInputInterface {
@@ -85,7 +85,7 @@ const ItemComments = ({ name, bord, task }: ItemCommentsInterfaceProps) => {
                     })}
                   />
                   <button type="submit" className={s.save}>
-                    &#10004;
+                    {CHECK_SYMBOL}
                   </button>
                 </form>
               ) : (
