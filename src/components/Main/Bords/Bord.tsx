@@ -1,14 +1,14 @@
 import s from './bord.module.scss';
-import { IBord } from '../../../types/bords';
+import { BordInterface } from '../../../types/bords';
 import BordTitle from './BordTitle/BordTitle';
 import AddTask from './AddTask/AddTask';
 import Task from './Task/Task';
 
-interface IBordProprs {
-  bord: IBord;
+interface BordInterfaceProprs {
+  bord: BordInterface;
 }
 
-const Bord = ({ bord }: IBordProprs) => {
+const Bord = ({ bord }: BordInterfaceProprs) => {
   return (
     <div className={s.bord}>
       <BordTitle titleBord={bord.titleBord} bordId={bord.id} />

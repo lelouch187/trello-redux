@@ -1,36 +1,36 @@
 import { useState } from 'react';
-import { IBord, ITask } from '../../../types/bords';
+import { BordInterface, TaskInterface } from '../../../types/bords';
 import s from './itemComments.module.scss';
 import { useForm } from 'react-hook-form';
 import {
-  IAddCommentTask,
-  IChangeCommentTask,
-  IDeleteCommentTask,
+  AddCommentTaskInterface, ChangeCommentTaskInterface, DeleteCommentTaskInterface,
+
 } from '../../../state/ducks/bords/reducers';
 import { useAppDispatch } from '../../../state/hooks';
 import { bordsActions } from '../../../state/ducks/bords';
-import { redCross } from '../../../variables';
+import { RED_CROSS_SYMBOL } from '../../../variables/icons';
 
-interface CommentInput {
+
+interface CommentInputInterface {
   commentTitle: string;
   changeComment: string;
 }
 
-interface IItemComments {
+interface ItemCommentsInterfaceProps {
   name: string;
-  bord: IBord | undefined;
-  task: ITask | undefined;
+  bord: BordInterface | undefined;
+  task: TaskInterface | undefined;
 }
 
-const ItemComments = ({ name, bord, task }: IItemComments) => {
+const ItemComments = ({ name, bord, task }: ItemCommentsInterfaceProps) => {
   const [visibleInput, setVisibleInput] = useState('');
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, reset, setValue } = useForm<CommentInput>();
+  const { register, handleSubmit, reset, setValue } = useForm<CommentInputInterface>();
 
-  const addComment = (data: CommentInput) => {
+  const addComment = (data: CommentInputInterface) => {
     const titleNotEmpry = data.commentTitle.trim();
     if (titleNotEmpry && bord !== undefined && task !== undefined) {
-      const currentTask: IAddCommentTask = {
+      const currentTask: AddCommentTaskInterface = {
         idBord: bord.id,
         idTask: task.id,
         commentTask: data.commentTitle,
@@ -42,7 +42,7 @@ const ItemComments = ({ name, bord, task }: IItemComments) => {
 
   const deleteComment = (id: string) => {
     if (bord !== undefined && task !== undefined) {
-      const currentComment: IDeleteCommentTask = {
+      const currentComment: DeleteCommentTaskInterface = {
         idBord: bord.id,
         idTask: task.id,
         id,
@@ -53,9 +53,9 @@ const ItemComments = ({ name, bord, task }: IItemComments) => {
 
   const changeComment =
     (id: string) =>
-    ({ changeComment }: CommentInput) => {
+    ({ changeComment }: CommentInputInterface) => {
       if (bord !== undefined && task !== undefined) {
-        const currentComment: IChangeCommentTask = {
+        const currentComment: ChangeCommentTaskInterface = {
           idBord: bord.id,
           idTask: task.id,
           id,
@@ -98,10 +98,8 @@ const ItemComments = ({ name, bord, task }: IItemComments) => {
                   {comment.value}
                 </p>
               )}
-              <span
-                onClick={() => deleteComment(comment.id)}
-                className={s.comment_delete}>
-                {redCross}
+              <span onClick={() => deleteComment(comment.id)} className={s.comment_delete}>
+                {RED_CROSS_SYMBOL}
               </span>
             </div>
           );

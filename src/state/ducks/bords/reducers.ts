@@ -1,40 +1,40 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IBord } from '../../../types/bords';
+import { BordInterface } from '../../../types/bords';
 
 export interface BordsState {
-  bords: IBord[];
+  bords: BordInterface[];
 }
 
-interface ISaveBordName {
+interface SaveBordNameInterface {
   id: string;
   BordTitle: string;
 }
 
-interface INewTask {
+interface NewTaskInterface {
   id: string;
   TaskTitle: string;
 }
 
-export interface IDeleteTask {
+export interface DeleteTaskInterface {
   idBord: string;
   idTask: string;
 }
 
-export interface IChangeDescription extends IDeleteTask {
+export interface ChangeDescriptionInterface extends DeleteTaskInterface {
   descriptionTask: string;
 }
 
-export interface IChangeTaskTitle extends IDeleteTask {
+export interface ChangeTaskTitleInterface extends DeleteTaskInterface {
   titleTask: string;
 }
-export interface IAddCommentTask extends IDeleteTask {
+export interface AddCommentTaskInterface extends DeleteTaskInterface {
   commentTask: string;
 }
-export interface IDeleteCommentTask extends IDeleteTask {
+export interface DeleteCommentTaskInterface extends DeleteTaskInterface {
   id: string;
 }
-export interface IChangeCommentTask extends IDeleteCommentTask {
+export interface ChangeCommentTaskInterface extends DeleteCommentTaskInterface {
   title: string;
 }
 
@@ -67,7 +67,7 @@ export const bordsSlice = createSlice({
   name: 'bords',
   initialState,
   reducers: {
-    saveBordName: (state, action: PayloadAction<ISaveBordName>) => {
+    saveBordName: (state, action: PayloadAction<SaveBordNameInterface>) => {
       state.bords.map((bord) => {
         if (bord.id === action.payload.id) {
           return (bord.titleBord = action.payload.BordTitle);
@@ -75,7 +75,7 @@ export const bordsSlice = createSlice({
         return bord;
       });
     },
-    addTask: (state, action: PayloadAction<INewTask>) => {
+    addTask: (state, action: PayloadAction<NewTaskInterface>) => {
       const newTask = {
         id: nanoid(),
         title: action.payload.TaskTitle,
@@ -89,7 +89,7 @@ export const bordsSlice = createSlice({
         return bord;
       });
     },
-    changeTaskTitle: (state, action: PayloadAction<IChangeTaskTitle>) => {
+    changeTaskTitle: (state, action: PayloadAction<ChangeTaskTitleInterface>) => {
       const tasks = state.bords.find(
         (bord) => bord.id === action.payload.idBord,
       )?.tasks;
@@ -98,7 +98,7 @@ export const bordsSlice = createSlice({
         task.title = action.payload.titleTask;
       }
     },
-    deleteTask: (state, action: PayloadAction<IDeleteTask>) => {
+    deleteTask: (state, action: PayloadAction<DeleteTaskInterface>) => {
       const bord = state.bords.find(
         (bord) => bord.id === action.payload.idBord,
       );
@@ -110,7 +110,7 @@ export const bordsSlice = createSlice({
     },
     changeDescriptionTask: (
       state,
-      action: PayloadAction<IChangeDescription>,
+      action: PayloadAction<ChangeDescriptionInterface>,
     ) => {
       const tasks = state.bords.find(
         (bord) => bord.id === action.payload.idBord,
@@ -120,7 +120,7 @@ export const bordsSlice = createSlice({
         task.description = action.payload.descriptionTask;
       }
     },
-    deleteDescriptionTask: (state, action: PayloadAction<IDeleteTask>) => {
+    deleteDescriptionTask: (state, action: PayloadAction<DeleteTaskInterface>) => {
       const tasks = state.bords.find(
         (bord) => bord.id === action.payload.idBord,
       )?.tasks;
@@ -129,7 +129,7 @@ export const bordsSlice = createSlice({
         task.description = '';
       }
     },
-    addCommentTask: (state, action: PayloadAction<IAddCommentTask>) => {
+    addCommentTask: (state, action: PayloadAction<AddCommentTaskInterface>) => {
       const tasks = state.bords.find(
         (bord) => bord.id === action.payload.idBord,
       )?.tasks;
@@ -140,7 +140,7 @@ export const bordsSlice = createSlice({
     },
     deleteCommentTask: (
       state,
-      action: PayloadAction<IDeleteCommentTask>,
+      action: PayloadAction<DeleteCommentTaskInterface>,
     ) => {
       const tasks = state.bords.find(
         (bord) => bord.id === action.payload.idBord,
@@ -154,7 +154,7 @@ export const bordsSlice = createSlice({
     },
     changeCommentTask: (
       state,
-      action: PayloadAction<IChangeCommentTask>,
+      action: PayloadAction<ChangeCommentTaskInterface>,
     ) => {
       const tasks = state.bords.find(
         (bord) => bord.id === action.payload.idBord,

@@ -3,22 +3,23 @@ import s from './bordTitle.module.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../../../state/hooks';
 import { bordsActions } from '../../../../state/ducks/bords';
+import { CHECK_SYMBOL } from '../../../../variables/icons';
 
-interface IBordTitleProps {
+interface BordTitleInterfaceProps {
   titleBord: string;
   bordId: string;
 }
 
-interface IFormInputs {
+interface FormInputInterface {
   titleBord: string;
 }
 
-const BordTitle = ({ titleBord, bordId }: IBordTitleProps) => {
+const BordTitle = ({ titleBord, bordId }: BordTitleInterfaceProps) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInputs>({
+  } = useForm<FormInputInterface>({
     defaultValues: {
       titleBord,
     },
@@ -28,10 +29,8 @@ const BordTitle = ({ titleBord, bordId }: IBordTitleProps) => {
 
   const dispatch = useAppDispatch();
 
-  const changeBordTitle: SubmitHandler<IFormInputs> = (data) => {
-    dispatch(
-      bordsActions.saveBordName({ id: bordId, BordTitle: data.titleBord }),
-    );
+  const changeBordTitle: SubmitHandler<FormInputInterface> = (data) => {
+    dispatch(bordsActions.saveBordName({ id: bordId, BordTitle: data.titleBord }));
     setVisibleInput(false);
   };
 
@@ -44,7 +43,7 @@ const BordTitle = ({ titleBord, bordId }: IBordTitleProps) => {
               className={s.input}
               {...register('titleBord', { required: true, minLength: 2 })}
             />
-            <input className={s.save} type="submit" value="&#10004;" />
+            <input className={s.save} type="submit" value={CHECK_SYMBOL} />
           </form>
           <div>{errors.titleBord && 'Поле не может быть пустым'}</div>
         </>

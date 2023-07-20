@@ -1,21 +1,21 @@
-export interface IComments {
+export interface CommentsInterface {
    id:string;
    value:string;
 }
 
-export interface ITask {
+export interface TaskInterface {
    id:string;
    title:string;
    description:string;
-   comments: IComments[];
+   comments: CommentsInterface[];
 }
 
-export interface IBord{
+export interface BordInterface{
    id:string;
    titleBord:string;
-   tasks:ITask[]
+   tasks:TaskInterface[]
 }
-export interface IActiveTask{
+export interface ActiveTaskInterface{
    isVisible:boolean;
    indexBord:string|null;
    indexTask:string|null;

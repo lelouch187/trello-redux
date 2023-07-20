@@ -1,39 +1,37 @@
 import { useState } from 'react';
 import s from './itemInfo.module.scss';
-import { IBord, ITask } from '../../../types/bords';
+import { BordInterface, TaskInterface } from '../../../types/bords';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../../state/hooks';
-import {
-  IChangeTaskTitle,
-  IDeleteTask,
-} from '../../../state/ducks/bords/reducers';
+import { ChangeTaskTitleInterface, DeleteTaskInterface } from '../../../state/ducks/bords/reducers';
 import { bordsActions } from '../../../state/ducks/bords';
 import { activeTaskActions } from '../../../state/ducks/activeTask';
-import { check, trash } from '../../../variables';
+import { CHECK_SYMBOL, TRASH_SYMBOL } from '../../../variables/icons';
 
-interface ITitleTaskInput {
+
+interface TitleTaskInputInterface {
   taskTitle: string;
 }
 
-interface IItemInfo {
+interface ItemInfoInterfaceProps {
   name: string;
-  bord: IBord | undefined;
-  task: ITask | undefined;
+  bord: BordInterface | undefined;
+  task: TaskInterface | undefined;
 }
 
-const ItemInfo = ({ name, bord, task }: IItemInfo) => {
+const ItemInfo = ({ name, bord, task }: ItemInfoInterfaceProps) => {
   const dispatch = useAppDispatch();
   const [isVisibleInput, setVisibleInput] = useState(false);
 
-  const { register, handleSubmit } = useForm<ITitleTaskInput>({
+  const { register, handleSubmit } = useForm<TitleTaskInputInterface>({
     defaultValues: {
       taskTitle: task?.title,
     },
   });
 
-  const onChangeTaskTitle = (data: ITitleTaskInput) => {
+  const onChangeTaskTitle = (data: TitleTaskInputInterface) => {
     if (bord !== undefined && task !== undefined) {
-      const currentTask: IChangeTaskTitle = {
+      const currentTask: ChangeTaskTitleInterface = {
         idBord: bord.id,
         idTask: task.id,
         titleTask: data.taskTitle,
@@ -45,7 +43,7 @@ const ItemInfo = ({ name, bord, task }: IItemInfo) => {
 
   const deleteTask = () => {
     if (bord !== undefined && task !== undefined) {
-      const currentTask: IDeleteTask = {
+      const currentTask: DeleteTaskInterface = {
         idBord: bord.id,
         idTask: task.id,
       };
@@ -62,21 +60,16 @@ const ItemInfo = ({ name, bord, task }: IItemInfo) => {
       </div>
       {isVisibleInput ? (
         <form onSubmit={handleSubmit(onChangeTaskTitle)}>
-          <input
-            className={s.input}
-            {...register('taskTitle', { required: true, minLength: 2 })}
-          />
+          <input className={s.input} {...register('taskTitle', { required: true, minLength: 2 })} />
           <button type="submit" className={s.save}>
-            {check}
+            {CHECK_SYMBOL}
           </button>
         </form>
       ) : (
         <div className={s.task}>
-          <h2 onClick={() => setVisibleInput((prev) => !prev)}>
-            {task?.title}
-          </h2>
+          <h2 onClick={() => setVisibleInput((prev) => !prev)}>{task?.title}</h2>
           <span onClick={deleteTask} className={s.button}>
-            {trash}
+            {TRASH_SYMBOL}
           </span>
         </div>
       )}

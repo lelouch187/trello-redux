@@ -1,35 +1,33 @@
 import s from './itemDescription.module.scss';
-import { IBord, ITask } from '../../../types/bords';
+import { BordInterface, TaskInterface } from '../../../types/bords';
 import { useForm } from 'react-hook-form';
-import {
-  IChangeDescription,
-  IDeleteTask,
-} from '../../../state/ducks/bords/reducers';
+import { ChangeDescriptionInterface, DeleteTaskInterface } from '../../../state/ducks/bords/reducers';
 import { useAppDispatch } from '../../../state/hooks';
 import { bordsActions } from '../../../state/ducks/bords';
-import { pen, trash } from '../../../variables';
+import { PEN_SYMBOL, TRASH_SYMBOL } from '../../../variables/icons';
 
-interface DescriptionInput {
+
+interface DescriptionInputInterface {
   descriptionTask: string;
 }
 
-interface IItemDecription {
-  bord: IBord | undefined;
-  task: ITask | undefined;
+interface ItemDecriptionInterfaseProps {
+  bord: BordInterface | undefined;
+  task: TaskInterface | undefined;
 }
 
-const ItemDecription = ({ bord, task }: IItemDecription) => {
+const ItemDecription = ({ bord, task }: ItemDecriptionInterfaseProps) => {
   const dispatch = useAppDispatch();
 
-  const { register, handleSubmit, reset } = useForm<DescriptionInput>({
+  const { register, handleSubmit, reset } = useForm<DescriptionInputInterface>({
     defaultValues: {
       descriptionTask: task?.description,
     },
   });
 
-  const addDescription = (data: DescriptionInput) => {
+  const addDescription = (data: DescriptionInputInterface) => {
     if (bord !== undefined && task !== undefined) {
-      const currentTask: IChangeDescription = {
+      const currentTask: ChangeDescriptionInterface = {
         idBord: bord.id,
         idTask: task.id,
         descriptionTask: data.descriptionTask,
@@ -40,7 +38,7 @@ const ItemDecription = ({ bord, task }: IItemDecription) => {
 
   const changeDescription = () => {
     if (bord !== undefined && task !== undefined) {
-      const currentTask: IDeleteTask = {
+      const currentTask: DeleteTaskInterface = {
         idBord: bord.id,
         idTask: task.id,
       };
@@ -50,7 +48,7 @@ const ItemDecription = ({ bord, task }: IItemDecription) => {
 
   const deleteDescription = () => {
     if (bord !== undefined && task !== undefined) {
-      const currentTask: IDeleteTask = {
+      const currentTask: DeleteTaskInterface = {
         idBord: bord.id,
         idTask: task.id,
       };
@@ -66,17 +64,15 @@ const ItemDecription = ({ bord, task }: IItemDecription) => {
         <p>
           {task.description}
           <span onClick={changeDescription} className={s.change}>
-            {pen}
+            {PEN_SYMBOL}
           </span>
           <span onClick={deleteDescription} className={s.delete}>
-            {trash}
+            {TRASH_SYMBOL}
           </span>
         </p>
       ) : (
         <form onSubmit={handleSubmit(addDescription)} className={s.input}>
-          <textarea
-            {...register('descriptionTask', { required: true, minLength: 2 })}
-          />
+          <textarea {...register('descriptionTask', { required: true, minLength: 2 })} />
           <button type="submit">Добавить описание</button>
         </form>
       )}

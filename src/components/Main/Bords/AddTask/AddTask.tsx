@@ -3,22 +3,23 @@ import s from './addTask.module.scss';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../../../state/hooks';
 import { addTask } from '../../../../state/ducks/bords/actions';
-import { redCross } from '../../../../variables';
+import { RED_CROSS_SYMBOL } from '../../../../variables/icons';
 
-interface IAddTaskProps {
+
+interface AddTaskInterfaceProps {
   idBord: string;
 }
 
-interface ITaskArea {
+interface TaskAreaInterface {
   taskText: string;
 }
 
-const AddTask = ({ idBord }: IAddTaskProps) => {
+const AddTask = ({ idBord }: AddTaskInterfaceProps) => {
   const [isVisibleArea, setVisibleArea] = useState(false);
-  const { register, reset, handleSubmit } = useForm<ITaskArea>();
+  const { register, reset, handleSubmit } = useForm<TaskAreaInterface>();
   const disptach = useAppDispatch();
 
-  const addNewTask = (data: ITaskArea) => {
+  const addNewTask = (data: TaskAreaInterface) => {
     disptach(addTask({ id: idBord, TaskTitle: data.taskText }));
     setVisibleArea(false);
     reset();
@@ -37,9 +38,7 @@ const AddTask = ({ idBord }: IAddTaskProps) => {
             <button type="submit" className={s.button}>
               Добавить карточку
             </button>
-            <span onClick={() => setVisibleArea((prev) => !prev)}>
-              {redCross}
-            </span>
+            <span onClick={() => setVisibleArea((prev) => !prev)}>{RED_CROSS_SYMBOL}</span>
           </div>
         </form>
       ) : (

@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IActiveTask } from '../../../types/bords';
+import { ActiveTaskInterface } from '../../../types/bords';
 
-export interface activeTaskState extends IActiveTask {}
+export interface ActiveTaskState extends ActiveTaskInterface {}
 
-interface IopenTask {
+interface OpenTaskInterface {
   idBord:string;
   idTask:string;
 }
 
-const initialState: activeTaskState = {
+const initialState: ActiveTaskState = {
   isVisible: false,
   indexBord: null,
   indexTask: null,
@@ -19,7 +19,7 @@ export const activeTaskSlice = createSlice({
   name: 'activeTask',
   initialState,
   reducers: {
-  openTask:(state, action:PayloadAction<IopenTask>)=>{
+  openTask:(state, action:PayloadAction<OpenTaskInterface>)=>{
     state.isVisible = true;
     state.indexBord = action.payload.idBord
     state.indexTask = action.payload.idTask

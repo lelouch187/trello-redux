@@ -1,6 +1,6 @@
 import s from './main.module.scss';
 import Bord from './Bords/Bord';
-import { IBord } from '../../types/bords';
+import { BordInterface } from '../../types/bords';
 import { useAppSelector } from '../../state/hooks';
 import { bordsSelectors } from '../../state/ducks/bords';
 
@@ -9,7 +9,7 @@ const Main = () => {
 
   return (
     <main className={s.main}>
-      {bords.map((bord: IBord) => {
+      {bords.map((bord: BordInterface) => {
         return <Bord bord={bord} key={bord.id} />;
       })}
     </main>
